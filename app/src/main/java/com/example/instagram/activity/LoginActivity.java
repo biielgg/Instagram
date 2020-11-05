@@ -33,6 +33,8 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        verificarUsuarioLogado();
         inicializarComponentes();
 
         //fazer login do usuario
@@ -65,6 +67,14 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
+    public void verificarUsuarioLogado(){
+        autenticacao = ConfiguracaoFirebase.getFirebaseAutenticacao();
+        if(autenticacao.getCurrentUser() != null){
+            startActivity(new Intent(getApplicationContext(), MainActivity.class));
+            finish();
+        }
+    }
+
     public void validarLogin(Usuario usuario){
         progressBar.setVisibility(View.VISIBLE);
         autenticacao = ConfiguracaoFirebase.getFirebaseAutenticacao();
@@ -77,6 +87,7 @@ public class LoginActivity extends AppCompatActivity {
                 if (task.isSuccessful()){
                     progressBar.setVisibility(View.GONE);
                     startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                    finish();
                 }else{
                     Toast.makeText(LoginActivity.this,
                             "Erro ao fazer login",
