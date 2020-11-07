@@ -42,6 +42,9 @@ public class MainActivity extends AppCompatActivity {
 
         //Configuração do Bottom Navigation View
         configuraBottomNavigationView();
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.viewPager, new FeedFragment()).commit();
     }
 
     private void configuraBottomNavigationView(){
