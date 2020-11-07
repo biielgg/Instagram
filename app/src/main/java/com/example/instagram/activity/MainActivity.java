@@ -44,6 +44,8 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigationViewEx.enableItemShiftingMode(false);
         bottomNavigationViewEx.enableShiftingMode(false);
         bottomNavigationViewEx.setTextVisibility(false);
+
+        //habilitar a navegação
     }
 
     @Override
