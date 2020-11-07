@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import com.example.instagram.R;
 import com.example.instagram.helper.ConfiguracaoFirebase;
 import com.google.firebase.auth.FirebaseAuth;
+import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -31,6 +32,18 @@ public class MainActivity extends AppCompatActivity {
 
         //Configuração de objetos
         autenticacao = ConfiguracaoFirebase.getFirebaseAutenticacao();
+
+        //Configuração do Bottom Navigation View
+        configuraBottomNavigationView();
+    }
+
+    private void configuraBottomNavigationView(){
+        BottomNavigationViewEx bottomNavigationViewEx = findViewById(R.id.bottom_navigation);
+        //Faz as configurações iniciais do Botto Navigation
+        bottomNavigationViewEx.enableAnimation(true);
+        bottomNavigationViewEx.enableItemShiftingMode(false);
+        bottomNavigationViewEx.enableShiftingMode(false);
+        bottomNavigationViewEx.setTextVisibility(false);
     }
 
     @Override
