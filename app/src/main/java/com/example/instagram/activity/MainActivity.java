@@ -58,6 +58,11 @@ public class MainActivity extends AppCompatActivity {
         //habilitar a navegação
         habilitarNavegacao(bottomNavigationViewEx);
 
+        //Configura item selecionado inicialmente
+        Menu menu = bottomNavigationViewEx.getMenu();
+        MenuItem menuItem = menu.getItem(1);
+        menuItem.setChecked(true);
+
         }
 
     //Metodo para eventos de click na bottom navigation
