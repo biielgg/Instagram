@@ -1,11 +1,13 @@
 package com.example.instagram.activity;
 
+import android.content.Intent;
 import android.media.Image;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.TextView;
@@ -51,6 +53,7 @@ public class PerfilAmigoActivity extends AppCompatActivity {
     private ValueEventListener valueEventListenerPerfilAmigo;
 
     private String idUsuarioLogado;
+    private List<Postagem> postagens;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,6 +105,21 @@ public class PerfilAmigoActivity extends AppCompatActivity {
 
         //carrega as fotos das postagens de um usuario
         carregarFotosPostagem();
+
+        //abre foto clicada
+        gridViewPerfil.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Postagem postagem = postagens.get(position);
+                Intent i = new Intent(getApplicationContext(), VisualizarPostagemActivity.class);
+
+                i.putExtra("postagem", postagem);
+                i.putExtra("usuario", usuarioSelecionado);
+
+                startActivity(i);
+
+            }
+        });
     }
 
     //Instancia a UniversalImageLoader
@@ -119,6 +137,7 @@ public class PerfilAmigoActivity extends AppCompatActivity {
 
     public void carregarFotosPostagem(){
         //recupera as fotos postadas pelo usuario
+        postagens = new ArrayList<>();
         postagensUsuarioRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -131,6 +150,7 @@ public class PerfilAmigoActivity extends AppCompatActivity {
                 List<String> urlFotos = new ArrayList<>();
                 for(DataSnapshot ds: dataSnapshot.getChildren()){
                     Postagem postagem = ds.getValue(Postagem.class);
+                    postagens.add(postagem);
                     urlFotos.add(postagem.getCaminhoFoto());
 
                 }
