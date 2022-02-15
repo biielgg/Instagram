@@ -5,6 +5,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputEditText;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -57,8 +58,7 @@ public class FiltroActivity extends AppCompatActivity {
     private List<ThumbnailItem> listaFiltros;
     private String idUsuarioLogado;
     private Usuario usuarioLogado;
-    private ProgressBar progressBar;
-    private boolean estaCarregando;
+    private AlertDialog dialog;
 
     private RecyclerView recyclerFiltros;
     private AdapterMiniaturas adapterMiniaturas;
@@ -82,7 +82,6 @@ public class FiltroActivity extends AppCompatActivity {
         imagemFotoEscolhida = findViewById(R.id.imageFotoEscolhida);
         recyclerFiltros     = findViewById(R.id.recyclerFiltros);
         textDescricaoFiltro = findViewById(R.id.textDescricaoFiltro);
-        progressBar = findViewById(R.id.progressFiltro);
 
         //Recuperar dados do usuario logado
         recuperarDadosUsuarioLogado();
@@ -140,19 +139,18 @@ public class FiltroActivity extends AppCompatActivity {
         }
     }
 
-    private void carregando(boolean estado){
-        if(estado){
-            estaCarregando = true;
-            progressBar.setVisibility(View.VISIBLE);
-        } else {
-            estaCarregando = false;
-            progressBar.setVisibility(View.GONE);
-        }
+    private void abrirDialogCarregamento(String titulo){
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setTitle(titulo);
+        alert.setCancelable(false);
+        alert.setView(R.layout.carregamento);
+        dialog = alert.create();
+        dialog.show();
     }
 
     private void recuperarDadosUsuarioLogado(){
 
-        carregando(true);
+        abrirDialogCarregamento("Carregando dados, aguarde!");
         usuarioLogadoRef = usuariosRef.child(idUsuarioLogado);
         usuarioLogadoRef.addListenerForSingleValueEvent(
                 new ValueEventListener() {
@@ -160,7 +158,7 @@ public class FiltroActivity extends AppCompatActivity {
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         //recupera dados do usuario logado
                         usuarioLogado = dataSnapshot.getValue(Usuario.class);
-                        carregando(false);
+                        dialog.cancel();
                     }
 
                     @Override
@@ -199,56 +197,55 @@ public class FiltroActivity extends AppCompatActivity {
     }
 
     private void publicarPostagem(){
-        if(estaCarregando){
-            Toast.makeText(getApplicationContext(), "Carregando dados, aguarde!", Toast.LENGTH_SHORT).show();
-        } else {
-            Postagem postagem = new Postagem();
-            postagem.setIdUsuario(idUsuarioLogado);
-            postagem.setDescricao(textDescricaoFiltro.getText().toString());
 
-            //Recuperar dados da imagem para o firebase
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            imagemFiltro.compress(Bitmap.CompressFormat.JPEG, 70, baos);
-            byte[] dadosImagem = baos.toByteArray();
+        abrirDialogCarregamento("Salvando postagem.");
+        Postagem postagem = new Postagem();
+        postagem.setIdUsuario(idUsuarioLogado);
+        postagem.setDescricao(textDescricaoFiltro.getText().toString());
 
-            //salvar imagem no firebase storage
-            StorageReference storageRef = ConfiguracaoFirebase.getFirebaseStorage();
-            StorageReference imagemRef = storageRef
-                    .child("imagens")
-                    .child("postagens")
-                    .child(postagem.getId() + ".jpeg");
+        //Recuperar dados da imagem para o firebase
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        imagemFiltro.compress(Bitmap.CompressFormat.JPEG, 70, baos);
+        byte[] dadosImagem = baos.toByteArray();
 
-            UploadTask uploadTask = imagemRef.putBytes(dadosImagem);
-            uploadTask.addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure( Exception e) {
+        //salvar imagem no firebase storage
+        StorageReference storageRef = ConfiguracaoFirebase.getFirebaseStorage();
+        StorageReference imagemRef = storageRef
+                .child("imagens")
+                .child("postagens")
+                .child(postagem.getId() + ".jpeg");
+
+        UploadTask uploadTask = imagemRef.putBytes(dadosImagem);
+        uploadTask.addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure( Exception e) {
+                Toast.makeText(FiltroActivity.this,
+                        "Erro ao salvar a imagem, tente novamente.",
+                        Toast.LENGTH_SHORT).show();
+            }
+        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+
+                //recuperar local da foto
+                Uri url = taskSnapshot.getDownloadUrl();
+                postagem.setCaminhoFoto(url.toString());
+
+                //salvar postagem
+                if(postagem.salvar()){
+                    //Atualizar quantidade de postagens
+                    int qtdPostagem = usuarioLogado.getPostagens()+1;
+                    usuarioLogado.setPostagens(qtdPostagem);
+                    usuarioLogado.atualizarQtdPostagem();
+
                     Toast.makeText(FiltroActivity.this,
-                            "Erro ao salvar a imagem, tente novamente.",
+                            "Sucesso ao salvar postagem.",
                             Toast.LENGTH_SHORT).show();
+                    dialog.cancel();
+                    finish();
                 }
-            }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-
-                    //recuperar local da foto
-                    Uri url = taskSnapshot.getDownloadUrl();
-                    postagem.setCaminhoFoto(url.toString());
-
-                    //salvar postagem
-                    if(postagem.salvar()){
-                        //Atualizar quantidade de postagens
-                        int qtdPostagem = usuarioLogado.getPostagens()+1;
-                        usuarioLogado.setPostagens(qtdPostagem);
-                        usuarioLogado.atualizarQtdPostagem();
-
-                        Toast.makeText(FiltroActivity.this,
-                                "Sucesso ao salvar postagem.",
-                                Toast.LENGTH_SHORT).show();
-                        finish();
-                    }
-                }
-            });
-        }
+            }
+        });
     }
 
     @Override
