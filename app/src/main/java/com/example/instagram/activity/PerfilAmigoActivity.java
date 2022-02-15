@@ -134,7 +134,6 @@ public class PerfilAmigoActivity extends AppCompatActivity {
                     urlFotos.add(postagem.getCaminhoFoto());
 
                 }
-                textPublicacoes.setText(String.valueOf(urlFotos.size()));
 
                 //Configurar adapter
                 adapterGrid = new AdapterGrid(getApplicationContext(), R.layout.grid_postagem, urlFotos);
@@ -257,11 +256,11 @@ public class PerfilAmigoActivity extends AppCompatActivity {
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         Usuario usuario = dataSnapshot.getValue(Usuario.class);
 
-                        //String postagens = String.valueOf(usuario.getPostagens());
+                        String postagens = String.valueOf(usuario.getPostagens());
                         String seguindo = String.valueOf(usuario.getSeguindo());
                         String seguidores = String.valueOf(usuario.getSeguidores());
 
-                        //textPublicacoes.setText(postagens);
+                        textPublicacoes.setText(postagens);
                         textSeguindo.setText(seguindo);
                         textSeguidores.setText(seguidores);
                     }
