@@ -12,8 +12,15 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.instagram.R;
+import com.example.instagram.helper.ConfiguracaoFirebase;
 import com.example.instagram.model.Feed;
+import com.example.instagram.model.PostagemCurtida;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 import com.like.LikeButton;
+import com.like.OnLikeListener;
 
 import java.util.List;
 
@@ -49,6 +56,48 @@ public class AdapterFeed extends RecyclerView.Adapter<AdapterFeed.MyViewHolder> 
 
         myViewHolder.descricao.setText(feed.getDescricao());
         myViewHolder.nome.setText(feed.getNomeusuario());
+
+        /*
+        postagens-curtidas
+            -id_postagem
+                -qtdCurtidas
+                -id_usuario
+                    nome usuario
+                    caminho foto
+         */
+        //recuperar dados da postagem curtida
+
+        DatabaseReference curtidasRef = ConfiguracaoFirebase.getFirebase()
+                .child("postagens-curtidas")
+                .child(feed.getId());
+        curtidasRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                int qtdCurtidas = 0;
+                if(dataSnapshot.hasChild("qtdCurtidas")){
+                    PostagemCurtida postagemCurtida = dataSnapshot.getValue(PostagemCurtida.class);
+                    qtdCurtidas = postagemCurtida.getQtdCurtidas();
+                }
+
+                //Adciona eventos para curtir uma foto
+                myViewHolder.likeButton.setOnLikeListener(new OnLikeListener() {
+                    @Override
+                    public void liked(LikeButton likeButton) {
+
+                    }
+
+                    @Override
+                    public void unLiked(LikeButton likeButton) {
+
+                    }
+                });
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
     @Override
