@@ -82,6 +82,13 @@ public class AdapterFeed extends RecyclerView.Adapter<AdapterFeed.MyViewHolder> 
                     qtdCurtidas = postagemCurtida.getQtdCurtidas();
                 }
 
+                //verifica se ja foi clicado
+                if(dataSnapshot.hasChild(usuarioLogado.getId())){
+                    myViewHolder.likeButton.setLiked(true);
+                } else {
+                    myViewHolder.likeButton.setLiked(false);
+                }
+
                 //monta objetivo postagem curtida
                 PostagemCurtida curtida = new PostagemCurtida();
                 curtida.setFeed(feed);
@@ -93,13 +100,17 @@ public class AdapterFeed extends RecyclerView.Adapter<AdapterFeed.MyViewHolder> 
                     @Override
                     public void liked(LikeButton likeButton) {
                         curtida.salvar();
+                        myViewHolder.qtdCurtidas.setText(curtida.getQtdCurtidas() + " curtidas");
                     }
 
                     @Override
                     public void unLiked(LikeButton likeButton) {
-
+                        curtida.remover();
+                        myViewHolder.qtdCurtidas.setText(curtida.getQtdCurtidas() + " curtidas");
                     }
                 });
+
+                myViewHolder.qtdCurtidas.setText(curtida.getQtdCurtidas() + " curtidas");
             }
 
             @Override
