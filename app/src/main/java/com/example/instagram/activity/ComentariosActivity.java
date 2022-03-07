@@ -2,22 +2,31 @@ package com.example.instagram.activity;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.instagram.R;
+import com.example.instagram.adapter.AdapterComentario;
 import com.example.instagram.helper.UsuarioFirebase;
 import com.example.instagram.model.Comentario;
 import com.example.instagram.model.Usuario;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ComentariosActivity extends AppCompatActivity {
 
     private EditText editComentario;
+    private RecyclerView recyclerComentarios;
 
     private String idPostagem;
     private Usuario usuario;
+    private AdapterComentario adapterComentario;
+    private List<Comentario> listaComentarios = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +35,7 @@ public class ComentariosActivity extends AppCompatActivity {
 
         //Inicializa componentes
         editComentario = findViewById(R.id.editComentario);
+        recyclerComentarios = findViewById(R.id.recyclerComentarios);
 
         //Configurações iniciais
         usuario = UsuarioFirebase.getDadosUsuarioLogado();
@@ -36,6 +46,12 @@ public class ComentariosActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close);
+
+        //Configuração RecyclerView
+        adapterComentario = new AdapterComentario(listaComentarios, getApplicationContext());
+        recyclerComentarios.setHasFixedSize(true);
+        recyclerComentarios.setLayoutManager(new LinearLayoutManager(this));
+        recyclerComentarios.setAdapter(adapterComentario);
 
         //recupera id postagem
         Bundle bundle = getIntent().getExtras();

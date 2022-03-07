@@ -29,4 +29,6 @@
             android:paddingLeft="10dp"
             android:text="Nome do usuário" />
     </LinearLayout>
+
+    <include layout="@layout/divisor"/>
 </LinearLayout>
