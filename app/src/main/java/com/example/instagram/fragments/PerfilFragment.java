@@ -97,9 +97,6 @@ public class PerfilFragment extends Fragment {
                     .into(imagePerfil);
         }
 
-        //recupera usuario logado
-
-
         //abrir a edição de perfil
         buttonAcaoPerfil.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -135,7 +132,6 @@ public class PerfilFragment extends Fragment {
                     urlFotos.add(postagem.getCaminhoFoto());
 
                 }
-                textPublicacoes.setText(String.valueOf(urlFotos.size()));
 
                 //Configurar adapter
                 adapterGrid = new AdapterGrid(getActivity(), R.layout.grid_postagem, urlFotos);
@@ -181,11 +177,11 @@ public class PerfilFragment extends Fragment {
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         Usuario usuario = dataSnapshot.getValue(Usuario.class);
 
-                        //String postagens = String.valueOf(usuario.getPostagens());
+                        String postagens = String.valueOf(usuario.getPostagens());
                         String seguindo = String.valueOf(usuario.getSeguindo());
                         String seguidores = String.valueOf(usuario.getSeguidores());
 
-                        //textPublicacoes.setText(postagens);
+                        textPublicacoes.setText(postagens);
                         textSeguindo.setText(seguindo);
                         textSeguidores.setText(seguidores);
                     }
@@ -198,12 +194,29 @@ public class PerfilFragment extends Fragment {
         );
     }
 
+    private void recuperaFotoUsuario(){
+
+        usuarioLogado = UsuarioFirebase.getDadosUsuarioLogado();
+
+        //recupera foto do usuario
+        String caminhoFoto = usuarioLogado.getCaminhoFoto();
+        if (caminhoFoto != null){
+            Uri url = Uri.parse(caminhoFoto);
+            Glide.with(getActivity())
+                    .load(url)
+                    .into(imagePerfil);
+        }
+    }
+
     @Override
     public void onStart() {
         super.onStart();
 
         //Recuperar dados do usuario logado
         recuperarDadosusuarioLogado();
+
+        //recupera a foto do usuário
+        recuperaFotoUsuario();
     }
 
     @Override

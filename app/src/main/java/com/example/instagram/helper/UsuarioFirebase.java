@@ -27,7 +27,7 @@ public class UsuarioFirebase {
             //Usuario logado no App
             FirebaseUser usuarioLogado = getUsuarioAtual();
 
-            //Configurar objeti para alteração do perfil
+            //Configurar objeto para alteração do perfil
             UserProfileChangeRequest profile = new UserProfileChangeRequest
                     .Builder()
                     .setDisplayName(nome)

@@ -97,7 +97,7 @@ public class EditarPerfilActivity extends AppCompatActivity {
                 usuarioLogado.atualizar();
 
                 Toast.makeText(EditarPerfilActivity.this,
-                        "Dados altrados com sucesso!",
+                        "Dados alterados com sucesso!",
                         Toast.LENGTH_SHORT).show();
             }
         });
