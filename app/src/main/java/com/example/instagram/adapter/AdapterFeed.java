@@ -147,13 +147,13 @@ public class AdapterFeed extends RecyclerView.Adapter<AdapterFeed.MyViewHolder> 
         public MyViewHolder (View itemView){
             super(itemView);
 
-            fotoPerfil          = itemView.findViewById(R.id.imagePerfilPostagem);
-            fotoPostagem        = itemView.findViewById(R.id.imagePostagemSelecionada);
-            nome                = itemView.findViewById(R.id.textPerfilPostagem);
-            qtdCurtidas         = itemView.findViewById(R.id.textQtdCurtidasPostagem);
-            descricao           = itemView.findViewById(R.id.textDescricaoPostagem);
+            fotoPerfil           = itemView.findViewById(R.id.imagePerfilPostagem);
+            fotoPostagem         = itemView.findViewById(R.id.imagePostagemSelecionada);
+            nome                 = itemView.findViewById(R.id.textPerfilPostagem);
+            qtdCurtidas          = itemView.findViewById(R.id.textQtdCurtidasPostagem);
+            descricao            = itemView.findViewById(R.id.textDescricaoPostagem);
             visualizarComentario = itemView.findViewById(R.id.imageComentarioFeed);
-            likeButton          = itemView.findViewById(R.id.likeButtonFeed);
+            likeButton           = itemView.findViewById(R.id.likeButtonFeed);
         }
     }
 }

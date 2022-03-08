@@ -27,8 +27,6 @@ public class Postagem implements Serializable {
     public boolean salvar(DataSnapshot seguidoresSnapshot){
         Map objeto = new HashMap();
         Usuario usuarioLogado = UsuarioFirebase.getDadosUsuarioLogado();
-
-
         DatabaseReference firebaseRef = ConfiguracaoFirebase.getFirebase();
 
         //Referencia para postagem

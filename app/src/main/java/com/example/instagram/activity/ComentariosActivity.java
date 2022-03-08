@@ -43,7 +43,7 @@ public class ComentariosActivity extends AppCompatActivity {
         setContentView(R.layout.activity_comentarios);
 
         //Inicializa componentes
-        editComentario = findViewById(R.id.editComentario);
+        editComentario      = findViewById(R.id.editComentario);
         recyclerComentarios = findViewById(R.id.recyclerComentarios);
 
         //Configurações iniciais
@@ -112,6 +112,7 @@ public class ComentariosActivity extends AppCompatActivity {
             comentario.setNomeUsuario(usuario.getNome());
             comentario.setCaminhoFoto(usuario.getCaminhoFoto());
             comentario.setComentario(textoComentario);
+
             if(comentario.salvar()){
                 Toast.makeText(this,
                         "Comentario salvo com sucesso.",

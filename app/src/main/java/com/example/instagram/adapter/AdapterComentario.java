@@ -52,8 +52,8 @@ public class AdapterComentario  extends RecyclerView.Adapter<AdapterComentario.M
         public MyViewHolder(View itemView){
             super(itemView);
             imagemPerfil = itemView.findViewById(R.id.imageFotoComentario);
-            nomeUsuario = itemView.findViewById(R.id.textNomeComentario);
-            comentario = itemView.findViewById(R.id.textComentario);
+            nomeUsuario  = itemView.findViewById(R.id.textNomeComentario);
+            comentario   = itemView.findViewById(R.id.textComentario);
         }
     }
 }

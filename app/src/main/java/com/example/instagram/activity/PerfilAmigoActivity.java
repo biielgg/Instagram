@@ -117,7 +117,6 @@ public class PerfilAmigoActivity extends AppCompatActivity {
                 i.putExtra("usuario", usuarioSelecionado);
 
                 startActivity(i);
-
             }
         });
     }
@@ -152,13 +151,11 @@ public class PerfilAmigoActivity extends AppCompatActivity {
                     Postagem postagem = ds.getValue(Postagem.class);
                     postagens.add(postagem);
                     urlFotos.add(postagem.getCaminhoFoto());
-
                 }
 
                 //Configurar adapter
                 adapterGrid = new AdapterGrid(getApplicationContext(), R.layout.grid_postagem, urlFotos);
                 gridViewPerfil.setAdapter(adapterGrid);
-
             }
 
             @Override
@@ -221,7 +218,6 @@ public class PerfilAmigoActivity extends AppCompatActivity {
         } else {
             buttonAcaoPerfil.setText("Seguir");
         }
-
     }
 
     private void salvarSeguidor(Usuario uLogado, Usuario uAmigo){
@@ -252,7 +248,6 @@ public class PerfilAmigoActivity extends AppCompatActivity {
         DatabaseReference usuarioSeguidores = usuariosRef
                 .child(uAmigo.getId());
         usuarioSeguidores.updateChildren(dadosSeguidores);
-
     }
 
     @Override

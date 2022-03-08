@@ -31,7 +31,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         //Configura a toolbar
-
         Toolbar toolbar = findViewById(R.id.toolbarPrincipal);
         toolbar.setTitle("Instagram");
         setSupportActionBar(toolbar);

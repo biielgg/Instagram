@@ -50,19 +50,6 @@ public class Usuario implements Serializable {
         firebaseRef.updateChildren(objeto);
     }
 
-    public Map<String, Object> converterParaMap(){
-        HashMap<String, Object> usuarioMap = new HashMap<>();
-        usuarioMap.put("email", getEmail());
-        usuarioMap.put("nome", getNome());
-        usuarioMap.put("id", getId());
-        usuarioMap.put("caminhoFoto", getCaminhoFoto());
-        usuarioMap.put("seguidores", getSeguidores());
-        usuarioMap.put("seguindo", getSeguindo());
-        usuarioMap.put("postagens", getPostagens());
-
-        return usuarioMap;
-    }
-
     public int getSeguidores() {
         return seguidores;
     }

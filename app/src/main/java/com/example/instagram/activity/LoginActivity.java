@@ -54,7 +54,6 @@ public class LoginActivity extends AppCompatActivity {
                         usuario.setSenha(textoSenha);
                         validarLogin( usuario );
 
-
                     }else{
                         Toast.makeText(LoginActivity.this,
                                 "Preencha a senha!",

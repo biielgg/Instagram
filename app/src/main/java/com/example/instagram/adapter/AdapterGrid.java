@@ -27,9 +27,9 @@ public class AdapterGrid extends ArrayAdapter<String> {
     private List<String> urlFotos;
     public AdapterGrid(@NonNull Context context, int resource, @NonNull List<String> objects) {
         super(context, resource, objects);
-        this.context = context;
+        this.context        = context;
         this.layoutResource = resource;
-        this.urlFotos = objects;
+        this.urlFotos       = objects;
     }
 
     public class ViewHolder{

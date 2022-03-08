@@ -68,8 +68,6 @@ public class FiltroActivity extends AppCompatActivity {
     private DatabaseReference firebaseRef;
     private DataSnapshot seguidoresSnapshot;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -106,7 +104,8 @@ public class FiltroActivity extends AppCompatActivity {
 
             //Configura recyclerview de filtros
             adapterMiniaturas = new AdapterMiniaturas(listaFiltros, getApplicationContext());
-            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(
+                    this, LinearLayoutManager.HORIZONTAL, false);
             recyclerFiltros.setLayoutManager(layoutManager);
             recyclerFiltros.setAdapter(adapterMiniaturas);
 
@@ -138,7 +137,6 @@ public class FiltroActivity extends AppCompatActivity {
 
             //Recupera filtros
             recuperarFiltros();
-
         }
     }
 
@@ -178,8 +176,6 @@ public class FiltroActivity extends AppCompatActivity {
 
                             }
                         });
-
-
                     }
 
                     @Override
@@ -282,7 +278,6 @@ public class FiltroActivity extends AppCompatActivity {
         switch (item.getItemId()){
             case R.id.ic_salvar_postagem:
                 publicarPostagem();
-
                 break;
         }
         return super.onOptionsItemSelected(item);

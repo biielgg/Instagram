@@ -130,13 +130,11 @@ public class PerfilFragment extends Fragment {
                 for(DataSnapshot ds: dataSnapshot.getChildren()){
                     Postagem postagem = ds.getValue(Postagem.class);
                     urlFotos.add(postagem.getCaminhoFoto());
-
                 }
 
                 //Configurar adapter
                 adapterGrid = new AdapterGrid(getActivity(), R.layout.grid_postagem, urlFotos);
                 gridViewPerfil.setAdapter(adapterGrid);
-
             }
 
             @Override

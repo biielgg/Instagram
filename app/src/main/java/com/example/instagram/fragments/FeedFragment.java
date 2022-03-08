@@ -32,8 +32,6 @@ public class FeedFragment extends Fragment {
     private DatabaseReference feedRef;
     private String idUsuarioLogado;
 
-
-
     public FeedFragment() {
         // Required empty public constructor
     }

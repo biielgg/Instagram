@@ -137,6 +137,5 @@ public class PesquisaFragment extends Fragment {
                 }
             });
         }
-
     }
 }

@@ -107,6 +107,7 @@ public class CadastroActivity extends AppCompatActivity {
                                Toast.makeText(CadastroActivity.this,
                                        "Cadastro com sucesso",
                                        Toast.LENGTH_SHORT).show();
+
                                startActivity(new Intent(getApplicationContext(), MainActivity.class));
                                finish();
                            }catch (Exception e){
@@ -133,7 +134,6 @@ public class CadastroActivity extends AppCompatActivity {
                            Toast.makeText(CadastroActivity.this,
                                    "Erro: " + erroExcecao,
                                    Toast.LENGTH_SHORT).show();
-
                        }
                     }
                 }

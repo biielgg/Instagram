@@ -54,7 +54,6 @@ public class AdapterMiniaturas extends RecyclerView.Adapter<AdapterMiniaturas.My
 
             foto = itemView.findViewById(R.id.imageFotoFiltro);
             nomeFiltro = itemView.findViewById(R.id.textNomeFiltro);
-
         }
     }
 }
